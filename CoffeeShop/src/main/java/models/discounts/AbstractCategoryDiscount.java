@@ -4,7 +4,7 @@ import java.util.Objects;
 
 import models.Menu.Category;
 
-public abstract class AbstractCategoryDiscount implements ICategoryDiscount{
+public abstract class AbstractCategoryDiscount implements ICategoryDiscount {
 
 	protected Category category;
 	protected boolean sumWithOthers;
@@ -15,8 +15,7 @@ public abstract class AbstractCategoryDiscount implements ICategoryDiscount{
 		this.sumWithOthers = sumWithOthers;
 	}
 
-	public Category getCategory()
-	{
+	public Category getCategory() {
 		return category;
 	}
 
@@ -29,15 +28,14 @@ public abstract class AbstractCategoryDiscount implements ICategoryDiscount{
 	public boolean check(Object object) {
 		return Objects.equals(object, category);
 	}
-	
+
 	@Override
 	public void setPromocode(String promocode) {
 		this.promocode = promocode;
 	}
-	
+
 	@Override
-	public String getPromocode()
-	{
+	public String getPromocode() {
 		return promocode;
 	}
 }

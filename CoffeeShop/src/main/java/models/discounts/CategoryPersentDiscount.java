@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 
 import models.Menu.Category;
 
-public class CategoryPersentDiscount extends AbstractCategoryDiscount implements IPercentDiscount{
+public class CategoryPersentDiscount extends AbstractCategoryDiscount implements IPercentDiscount {
 
 	private BigDecimal persent;
 	private PercentDiscountDelegate persentDelegate;

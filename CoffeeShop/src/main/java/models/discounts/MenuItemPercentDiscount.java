@@ -4,8 +4,8 @@ import java.math.BigDecimal;
 
 import models.IMenuItem;
 
-public class MenuItemPercentDiscount extends AbstractMenuItemDiscount implements IPercentDiscount{
-	
+public class MenuItemPercentDiscount extends AbstractMenuItemDiscount implements IPercentDiscount {
+
 	private BigDecimal percent;
 	private PercentDiscountDelegate persentDelegate;
 

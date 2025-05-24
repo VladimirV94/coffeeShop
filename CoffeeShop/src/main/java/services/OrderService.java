@@ -35,49 +35,38 @@ public class OrderService {
 	}
 
 	public boolean removeOrder(int orderId) {
-		
+
 		Order orderById = findOrderById(orderId);
-		if(orderById != null)
-		{
+		if (orderById != null) {
 			orders.remove(orderById);
 			return true;
 		}
 		return false;
 	}
 
-	private int getFreeId()
-	{
+	private int getFreeId() {
 		int freeId = 1;
-		try
-		{
+		try {
 			List<Integer> ordersId = orders.keySet().stream().map(Order::getId).toList();
-			return IntStream.range(1, Integer.MAX_VALUE)
-				.filter(id -> !ordersId.contains(id))
-				.findFirst()
-				.orElseThrow(() -> new LimitExceededException("all possible order's id are reserved"));
-		}
-		catch(LimitExceededException e) 
-		{
+			return IntStream.range(1, Integer.MAX_VALUE).filter(id -> !ordersId.contains(id)).findFirst()
+					.orElseThrow(() -> new LimitExceededException("all possible order's id are reserved"));
+		} catch (LimitExceededException e) {
 			e.printStackTrace();
 		}
 		return freeId;
 	}
 
-	public void addMenuItemToOrder(int orderId, IMenuItem menuItem)
-	{
+	public void addMenuItemToOrder(int orderId, IMenuItem menuItem) {
 		Objects.requireNonNull(menuItem);
 		Order orderById = findOrderById(orderId);
-		if(orderById != null)
-		{
+		if (orderById != null) {
 			orderById.addItem(menuItem);
 		}
 	}
 
-	public BigDecimal getOriginalPrice(int orderId)
-	{
+	public BigDecimal getOriginalPrice(int orderId) {
 		Order orderById = findOrderById(orderId);
-		if(orderById != null)
-		{
+		if (orderById != null) {
 			orderById.getTotalPrice();
 		}
 		return new BigDecimal(0);
@@ -95,20 +84,15 @@ public class OrderService {
 		return discountService.calculatePrice(basket, promocode);
 	}
 
-	public Collection<IMenuItem> getOrderMenuItems(int orderId)
-	{
+	public Collection<IMenuItem> getOrderMenuItems(int orderId) {
 		Order orderById = findOrderById(orderId);
-		if(orderById != null)
-		{
+		if (orderById != null) {
 			return orderById.getItems();
 		}
 		return Collections.emptyList();
 	}
 
-	private Order findOrderById(int orderId)
-	{
-		return orders.keySet().stream()
-			.filter(order -> order.getId() == orderId).findFirst()
-			.orElse(null);
+	private Order findOrderById(int orderId) {
+		return orders.keySet().stream().filter(order -> order.getId() == orderId).findFirst().orElse(null);
 	}
 }

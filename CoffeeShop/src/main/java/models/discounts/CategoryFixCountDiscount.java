@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 
 import models.Menu.Category;
 
-public class CategoryFixCountDiscount extends AbstractCategoryDiscount implements IFixCountDiscount{
+public class CategoryFixCountDiscount extends AbstractCategoryDiscount implements IFixCountDiscount {
 
 	private BigDecimal fixCount;
 	private FixCountDelegate fixCountDelegate;

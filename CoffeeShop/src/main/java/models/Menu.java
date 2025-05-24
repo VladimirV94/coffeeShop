@@ -9,10 +9,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Optional;
 
-
-public class Menu
-{
-	public enum Category{
+public class Menu {
+	public enum Category {
 		FOOD("Food"), DRINK("Drink"), DESSERTS("Desserts"), OTHER("other");
 
 		private String name;
@@ -20,7 +18,7 @@ public class Menu
 		Category(String name) {
 			this.name = name;
 		}
-		
+
 		@Override
 		public String toString() {
 			return name;
@@ -29,8 +27,7 @@ public class Menu
 
 	private Map<Category, List<IMenuItem>> items = new LinkedHashMap<>();
 
-	public HashMap<Category, List<IMenuItem>> getItems()
-	{
+	public HashMap<Category, List<IMenuItem>> getItems() {
 		return new LinkedHashMap<>(items);
 	}
 
@@ -38,33 +35,25 @@ public class Menu
 		return new ArrayList<>(items.get(category));
 	}
 
-	public Category getCategory(IMenuItem menuItem)
-	{
-		for(Entry<Category, List<IMenuItem>> itemsByCategory : items.entrySet())
-		{
-			if(itemsByCategory.getValue().contains(menuItem))
-			{
+	public Category getCategory(IMenuItem menuItem) {
+		for (Entry<Category, List<IMenuItem>> itemsByCategory : items.entrySet()) {
+			if (itemsByCategory.getValue().contains(menuItem)) {
 				return itemsByCategory.getKey();
 			}
 		}
 		return null;
 	}
-	
-	public void addItem(Category itemCategory, IMenuItem item)
-	{
-		Optional.ofNullable(items.get(itemCategory)).ifPresentOrElse(
-			itemsByCategory -> itemsByCategory.add(item),
-			() -> 
-			{
-				List<IMenuItem> itemsByCategory = new ArrayList<>();
-				itemsByCategory.add(item);
-				items.put(itemCategory, itemsByCategory);
-			});
+
+	public void addItem(Category itemCategory, IMenuItem item) {
+		Optional.ofNullable(items.get(itemCategory)).ifPresentOrElse(itemsByCategory -> itemsByCategory.add(item),
+				() -> {
+					List<IMenuItem> itemsByCategory = new ArrayList<>();
+					itemsByCategory.add(item);
+					items.put(itemCategory, itemsByCategory);
+				});
 	}
 
-	public void removeItem(Category itemCategory, IMenuItem item) 
-	{
-		Optional.ofNullable(items.get(itemCategory))
-			.ifPresent(items -> items.remove(item));
+	public void removeItem(Category itemCategory, IMenuItem item) {
+		Optional.ofNullable(items.get(itemCategory)).ifPresent(items -> items.remove(item));
 	}
 }

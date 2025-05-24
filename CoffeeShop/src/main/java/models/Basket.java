@@ -10,15 +10,14 @@ public class Basket {
 	private Map<IMenuItem, Integer> items = new LinkedHashMap<>();
 	private Menu menu;
 
-	public Basket(Menu menu) 
-	{
+	public Basket(Menu menu) {
 		this.menu = menu;
 	}
 
 	public Map<IMenuItem, Integer> getItems() {
 		return items;
 	}
-	
+
 	public void put(IMenuItem menuItem, int count) {
 		items.put(menuItem, count);
 	}

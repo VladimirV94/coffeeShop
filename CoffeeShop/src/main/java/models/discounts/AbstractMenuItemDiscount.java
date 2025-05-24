@@ -4,7 +4,7 @@ import java.util.Objects;
 
 import models.IMenuItem;
 
-public abstract class AbstractMenuItemDiscount implements IMenuItemDiscount{
+public abstract class AbstractMenuItemDiscount implements IMenuItemDiscount {
 
 	protected IMenuItem menuItem;
 	protected boolean sumWithOthers;
@@ -29,10 +29,9 @@ public abstract class AbstractMenuItemDiscount implements IMenuItemDiscount{
 	public void setPromocode(String promocode) {
 		this.promocode = promocode;
 	}
-	
+
 	@Override
-	public String getPromocode()
-	{
+	public String getPromocode() {
 		return promocode;
 	}
 }

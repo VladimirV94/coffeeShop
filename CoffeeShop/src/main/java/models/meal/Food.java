@@ -14,11 +14,12 @@ public class Food extends AbstractMenuItem {
 	public double getCalories() {
 		return calories;
 	}
-	
+
 	@Override
 	public String toString() {
-		
-		return new StringBuilder(getName()).append(". Price:")
-			.append(getPrice()).append(". Calories:").append(getCalories()).toString();
+
+		return new StringBuilder(getName())
+			.append(". Price:").append(getPrice())
+			.append(". Calories:").append(getCalories()).toString();
 	}
 }

@@ -9,7 +9,7 @@ import services.MenuService;
 import services.OrderService;
 
 public class Cafe {
-	
+
 	private boolean isCafeOpen = true;
 	private DiscountService discountService;
 	private OrderService orderService;
@@ -21,8 +21,7 @@ public class Cafe {
 		this.menuService = menuService;
 	}
 
-	public Menu getMenu()
-	{
+	public Menu getMenu() {
 		return menuService.getСurrentMenu();
 	}
 
@@ -35,7 +34,7 @@ public class Cafe {
 	}
 
 	public BigDecimal getDiscountPrice(IMenuItem menuItem, int count) {
-		
+
 		Category itemCategory = menuService.getСurrentMenu().getCategory(menuItem);
 		return orderService.getDiscountPrice(itemCategory, menuItem, count);
 	}
@@ -44,8 +43,7 @@ public class Cafe {
 		return orderService.getDiscountPrice(basket, promocode);
 	}
 
-	public int createOrder()
-	{
+	public int createOrder() {
 		return orderService.createOrder();
 	}
 
@@ -53,18 +51,15 @@ public class Cafe {
 		return orderService.removeOrder(orderId);
 	}
 
-	public void open()
-	{
-		isCafeOpen = true; 
+	public void open() {
+		isCafeOpen = true;
 	}
 
-	public void close()
-	{
-		isCafeOpen = false; 
+	public void close() {
+		isCafeOpen = false;
 	}
 
-	public boolean isOpen()
-	{
+	public boolean isOpen() {
 		return isCafeOpen;
 	}
 }

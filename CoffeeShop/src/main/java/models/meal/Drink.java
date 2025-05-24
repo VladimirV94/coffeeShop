@@ -14,11 +14,12 @@ public class Drink extends AbstractMenuItem {
 	public double getVolume() {
 		return volume;
 	}
-	
+
 	@Override
 	public String toString() {
-		
-		return new StringBuilder(getName()).append(". Price:")
-			.append(getPrice()).append(". Volume:").append(getVolume()).toString();
+
+		return new StringBuilder(getName())
+			.append(". Price:").append(getPrice())
+			.append(". Volume:").append(getVolume()).toString();
 	}
 }

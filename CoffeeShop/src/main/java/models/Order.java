@@ -11,33 +11,27 @@ public class Order {
 
 	private final int id;
 
-	public Order(int id)
-	{
+	public Order(int id) {
 		this.id = id;
 	}
 
-	public void addItem(IMenuItem item)
-	{
+	public void addItem(IMenuItem item) {
 		items.add(item);
 	}
 
-	public void removeItem(IMenuItem item)
-	{
+	public void removeItem(IMenuItem item) {
 		items.remove(item);
 	}
 
-	public List<IMenuItem> getItems()
-	{
+	public List<IMenuItem> getItems() {
 		return new ArrayList<>(items);
 	}
 
-	public BigDecimal getTotalPrice()
-	{
+	public BigDecimal getTotalPrice() {
 		return items.stream().map(IMenuItem::getPrice).reduce((a, b) -> a.add(b)).get();
 	}
 
-	public int getId()
-	{
+	public int getId() {
 		return id;
 	}
 }

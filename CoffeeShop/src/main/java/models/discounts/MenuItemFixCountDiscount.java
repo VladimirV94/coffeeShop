@@ -4,8 +4,8 @@ import java.math.BigDecimal;
 
 import models.IMenuItem;
 
-public class MenuItemFixCountDiscount extends AbstractMenuItemDiscount implements IFixCountDiscount{
-	
+public class MenuItemFixCountDiscount extends AbstractMenuItemDiscount implements IFixCountDiscount {
+
 	private BigDecimal fixCount;
 	private FixCountDelegate fixCountDelegate;
 

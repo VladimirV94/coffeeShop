@@ -2,7 +2,7 @@ package models;
 
 import java.math.BigDecimal;
 
-public abstract class AbstractMenuItem implements IMenuItem{
+public abstract class AbstractMenuItem implements IMenuItem {
 
 	private String name;
 	private BigDecimal price;

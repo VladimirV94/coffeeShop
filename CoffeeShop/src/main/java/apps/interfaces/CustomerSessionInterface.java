@@ -16,16 +16,18 @@ public class CustomerSessionInterface {
 	private MainMenuInterface mainMenuInterface;
 	private MenuInterface menuInterface;
 	private OrderInterface orderInterface;
-	private CategoryInterface categoryInterface ;
+	private CategoryInterface categoryInterface;
 	private MenuItemInterface menuItemInterface;
 	private BasketInterface basketInterface;
 
-	// TODO По хорошему нужно как-то вынести логику привязки IMenutem к Category из меню в отдельный класс 
+	// TODO По хорошему нужно как-то вынести логику привязки IMenutem к Category из
+	// меню в отдельный класс
 	// и использовать его для меню и корзины
-	// Так же разделить логику корзины как таковой от условно абстрактного набора <Category, <IMenutem, Count>>, 
+	// Так же разделить логику корзины как таковой от условно абстрактного набора
+	// <Category, <IMenutem, Count>>,
 	// который может быть как набран пользователем, так и иметь другое происхождение
 	private Basket basket;
-	
+
 	public CustomerSessionInterface(Cafe cafe) {
 		this.cafe = cafe;
 		basket = new Basket(cafe.getMenu());
@@ -37,43 +39,35 @@ public class CustomerSessionInterface {
 		basketInterface = new BasketInterface(this);
 	}
 
-	public void startSession()
-	{
+	public void startSession() {
 		mainMenuInterface.show();
 	}
 
-	int showMainMenuInterface()
-	{
+	int showMainMenuInterface() {
 		return mainMenuInterface.show();
 	}
 
-	int showMenuInterface()
-	{
+	int showMenuInterface() {
 		return menuInterface.show();
 	}
 
-	int showOrderInterface()
-	{
+	int showOrderInterface() {
 		return orderInterface.show();
 	}
 
-	int showCategoryInterface(Category category)
-	{
+	int showCategoryInterface(Category category) {
 		return categoryInterface.show(category);
 	}
 
-	int showMenuItemInterface(IMenuItem menuItem)
-	{
+	int showMenuItemInterface(IMenuItem menuItem) {
 		return menuItemInterface.show(menuItem);
 	}
 
-	int showBasketInterface()
-	{
+	int showBasketInterface() {
 		return basketInterface.show();
 	}
 
-	Cafe getCafe()
-	{
+	Cafe getCafe() {
 		return cafe;
 	}
 
@@ -90,10 +84,12 @@ public class CustomerSessionInterface {
 	}
 
 	void addInBasket(IMenuItem menuItem, int count) {
-		
-		// TODO отработка отрицательных чисел. Либо запрет и реализация removeFromBasket(IMenuItem menuItem, int count)
+
+		// TODO отработка отрицательных чисел. Либо запрет и реализация
+		// removeFromBasket(IMenuItem menuItem, int count)
 		// либо разрешение и отнимание тут.
-		// Так же проверка, что нельзя иметь отрицательное количество заказанных позиций. 
+		// Так же проверка, что нельзя иметь отрицательное количество заказанных
+		// позиций.
 		// TODO При нуле заказанных позиций убираем из корзины
 		// TODO Реализация добавления в корзину ещё какого-то количества позиции,
 		// а не затирание старого результата
@@ -101,17 +97,15 @@ public class CustomerSessionInterface {
 	}
 
 	void removeFromBasket(IMenuItem menuItem) {
-		
+
 		basket.remove(menuItem);
 	}
 
-	void clearBasket()
-	{
+	void clearBasket() {
 		basket.clear();
 	}
 
-	Basket getBasket()
-	{
+	Basket getBasket() {
 		return basket;
 	}
 }
