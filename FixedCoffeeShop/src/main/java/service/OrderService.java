@@ -16,13 +16,8 @@ import javax.naming.LimitExceededException;
 
 import model.Order;
 import model.meal.IMenuItem;
+
 public class OrderService {
-
-	private static final BigDecimal ONE_HUNDRED = new BigDecimal(100);
-
-	
-	public OrderService() {
-	}
 
 	Map<Order, List<IMenuItem>> orders = new HashMap<>();
 
@@ -54,26 +49,22 @@ public class OrderService {
 	}
 
 	public void addMenuItem(int orderId, IMenuItem menuItem, int menuItemCount) throws AttributeNotFoundException {
-		Objects.requireNonNull(menuItem);
 		Order orderById = getOrder(orderId);
 		if (orderById != null) {
 			orderById.addItem(menuItem, menuItemCount);
 		}
 	}
 
-	public BigDecimal getPrice(int orderId) throws AttributeNotFoundException
-	{
+	public BigDecimal getPrice(int orderId) throws AttributeNotFoundException {
 		Order order = getOrder(orderId);
-		if(order != null)
+		if (order != null)
 			return order.getTotalPrice();
 		throw new AttributeNotFoundException(orderId + ": not found");
 	}
 
-	public BigDecimal getPrice(int orderId, BigDecimal promocodeDiscount) throws AttributeNotFoundException
-	{
+	public BigDecimal getPrice(int orderId, BigDecimal promocodeDiscount) throws AttributeNotFoundException {
 		Order order = getOrder(orderId);
-		if(order != null)
-		{
+		if (order != null) {
 			return order.getTotalPrice(promocodeDiscount);
 		}
 		throw new AttributeNotFoundException(orderId + ": not found");

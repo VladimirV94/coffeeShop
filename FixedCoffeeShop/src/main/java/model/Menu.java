@@ -28,7 +28,7 @@ public class Menu {
 	public Optional<IMenuItem> getItem(String name) {
 		return items.stream().filter(item -> item.getName().equalsIgnoreCase(name)).findFirst();
 	}
-	
+
 	public List<IMenuItem> getItems() {
 		return new ArrayList<>(items);
 	}
@@ -39,27 +39,21 @@ public class Menu {
 
 	@Override
 	public String toString() {
-		
+
 		StringBuilder menu = new StringBuilder();
-		groupedItems.forEach((category, menuItems) ->
-		{
+		groupedItems.forEach((category, menuItems) -> {
 			menu.append(category);
-			
+
 			BigDecimal categoryDiscount = category.getDiscount();
-			if(categoryDiscount != null)
-			{
+			// Если есть скидка за категорию, то указываем эту информацию
+			if (categoryDiscount != null) {
 				menu.append(". Discount: ").append(categoryDiscount).append("%");
 				menu.append("\n");
-				menuItems.forEach(menuItem -> menu
-					.append(menuItem).append(". Discount price ").append(menuItem.getDiscountPrice())
-					.append("\n"));
-			}
-			else
-			{
+				menuItems.forEach(menuItem -> menu.append(menuItem).append(". Discount price ")
+						.append(menuItem.getDiscountPrice()).append("\n"));
+			} else {
 				menu.append("\n");
-				menuItems.forEach(menuItem -> menu
-					.append(menuItem)
-					.append("\n"));
+				menuItems.forEach(menuItem -> menu.append(menuItem).append("\n"));
 			}
 		});
 		return menu.toString();

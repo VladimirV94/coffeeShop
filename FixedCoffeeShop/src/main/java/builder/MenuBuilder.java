@@ -22,14 +22,14 @@ public class MenuBuilder {
 		this.menuItemCategory = new MenuItemCategory(menuItemCategory);
 		return this;
 	}
-	
+
 	public MenuBuilder setCategory(String menuItemCategory, double discount) {
 		this.menuItemCategory = new MenuItemCategory(menuItemCategory, new BigDecimal(discount));
 		return this;
 	}
 
 	public MenuBuilder createFood(String name, double price, double calories) {
-		
+
 		items.add(new Food(name, price, calories, menuItemCategory));
 		return this;
 	}

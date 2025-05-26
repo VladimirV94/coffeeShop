@@ -31,7 +31,7 @@ public abstract class AbstractMenuItem implements IMenuItem {
 	@Override
 	public BigDecimal getDiscountPrice() {
 		BigDecimal categoryDiscount = category.getDiscount();
-		if(categoryDiscount != null)
+		if (categoryDiscount != null)
 			return price.subtract(categoryDiscount.divide(ONE_HUNDRED).multiply(price));
 		else
 			return getPrice();

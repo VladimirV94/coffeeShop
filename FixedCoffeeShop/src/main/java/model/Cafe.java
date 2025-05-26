@@ -1,6 +1,5 @@
 package model;
 
-
 import java.math.BigDecimal;
 import java.util.Map;
 import java.util.Objects;
@@ -14,7 +13,7 @@ public class Cafe {
 
 	private Menu menu;
 	private OrderService orderService;
-	
+
 	private String promocode;
 	private BigDecimal promocodeDiscount;
 
@@ -39,10 +38,10 @@ public class Cafe {
 	public BigDecimal getOrderTotalPrice(int orderId) throws AttributeNotFoundException {
 		return orderService.getOrder(orderId).getTotalPrice();
 	}
-	
+
 	public BigDecimal getOrderTotalPrice(int orderId, String promocode) throws AttributeNotFoundException {
-		
-		if(promocode.equals(this.promocode))
+
+		if (promocode.equals(this.promocode))
 			return orderService.getOrder(orderId).getTotalPrice(promocodeDiscount);
 		else
 			throw new IllegalArgumentException("Uncorrect promocode");
@@ -53,8 +52,7 @@ public class Cafe {
 	}
 
 	public void addMenuItemToOrder(int orderId, String itemName, int menuItemCount) {
-		menu.getItem(itemName).ifPresent(menuItem ->
-		{
+		menu.getItem(itemName).ifPresent(menuItem -> {
 			try {
 				orderService.addMenuItem(orderId, menuItem, menuItemCount);
 			} catch (AttributeNotFoundException e) {

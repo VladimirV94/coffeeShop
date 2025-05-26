@@ -16,13 +16,11 @@ public class MenuItemCategory {
 		this.discount = discount;
 	}
 
-	public BigDecimal getDiscount()
-	{
+	public BigDecimal getDiscount() {
 		return discount;
 	}
 
-	public BigDecimal setDiscount(BigDecimal discount)
-	{
+	public BigDecimal setDiscount(BigDecimal discount) {
 		return discount;
 	}
 

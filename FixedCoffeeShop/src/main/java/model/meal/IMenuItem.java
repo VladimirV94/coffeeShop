@@ -10,6 +10,11 @@ public interface IMenuItem {
 
 	BigDecimal getPrice();
 	
+	/**
+	 * Получить цену со скидкой, если она есть. 
+	 * Иначе получить полную стоймость
+	 * @return
+	 */
 	BigDecimal getDiscountPrice();
 	
 	MenuItemCategory getCategory();
