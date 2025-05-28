@@ -43,32 +43,30 @@ public enum Command {
 
 	static String getMenuItemNameFromString(String input) {
 		Matcher matcher = getMatcher(MENU_ITEM.getName(), input);
-		if(matcher.matches())
+		if (matcher.matches())
 			return matcher.group(1);
 		throw new IllegalArgumentException("Unknown command: " + input);
 	}
 
 	static int getMenuItemCountFromString(String input) {
 		Matcher matcher = getMatcher(MENU_ITEM.getName(), input);
-		if(matcher.matches())
+		if (matcher.matches())
 			return Integer.parseInt(matcher.group(2));
 		throw new IllegalArgumentException("Unknown command: " + input);
 	}
 
 	static String getPromocodeFromString(String input) {
 		Matcher matcher = getMatcher(PROMOCODE.getName(), input);
-		if(matcher.matches())
+		if (matcher.matches())
 			return matcher.group(1);
 		throw new IllegalArgumentException("Unknown command: " + input);
 	}
 
-	static boolean isMatch(String name, String input)
-	{
+	static boolean isMatch(String name, String input) {
 		return getMatcher(name, input).matches();
 	}
-	
-	static Matcher getMatcher(String name, String input)
-	{
+
+	static Matcher getMatcher(String name, String input) {
 		return Pattern.compile(name, Pattern.CASE_INSENSITIVE).matcher(input);
 	}
 }
