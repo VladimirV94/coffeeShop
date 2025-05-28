@@ -3,10 +3,7 @@ package app;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import javax.management.AttributeNotFoundException;
+import java.util.NoSuchElementException;
 
 import model.Cafe;
 
@@ -17,8 +14,14 @@ public class CafeApp {
 	private static final String EXIT = "exit";
 	private static final String PAY_ORDER = "pay";
 
-	private static final Pattern MENU_ITEM_PATTERN = Pattern.compile("^add\\s+(.+?)\\s+count\\s+(\\d+)$", Pattern.CASE_INSENSITIVE);
-	private static final Pattern PROMOCODE_PATTERM = Pattern.compile("^promocode\\s+(\\w+)$", Pattern.CASE_INSENSITIVE);
+	private static final String COMMANDS_LIST = new StringBuilder("Commands\n")
+		.append(ORDER_COMMAND).append(" - show order\n")
+		.append(MENU_COMMAND).append(" - show menu\n")
+		.append("add *menu item name* count *number* - add menu item to order\n")
+		.append("promocode *promocode name* - select discount promocode\n")
+		.append(PAY_ORDER).append(" - pay order\n")
+		.append(EXIT).append(" - exit from app\n")
+		.toString();
 
 	BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 	private Cafe cafe;
@@ -35,30 +38,42 @@ public class CafeApp {
 		showCommandsList();
 
 		while (true) {
-			String command = null;
 			try {
-				command = getEnteredCommand();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+				String command = getEnteredCommand();
 
-			Matcher menuItemMatcher = MENU_ITEM_PATTERN.matcher(command);
-			Matcher promocodeMatcher = PROMOCODE_PATTERM.matcher(command);
-			if (menuItemMatcher.matches()) {
-				addMenuItemsToOrder(menuItemMatcher);
-			} else if (promocodeMatcher.matches()) {
-				updatePromocode(promocodeMatcher);
-			} else if (command.equalsIgnoreCase(MENU_COMMAND)) {
-				showMenu();
-			} else if (command.equalsIgnoreCase(ORDER_COMMAND)) {
-				showOrder();
-			} else if (command.equalsIgnoreCase(EXIT)) {
-				showMessage("app work finished");
-				break;
-			} else if (command.equalsIgnoreCase(PAY_ORDER)) {
-				createTextСheck();
-			} else {
-				showMessage("Unknown command");
+				switch (Command.fromString(command)) {
+				case MENU_COMMAND: {
+					showMenu();
+					break;
+				}
+				case ORDER_COMMAND: {
+					showOrder();
+					break;
+				}
+				case EXIT: {
+					showMessage("app work finished");
+					break;
+				}
+				case PAY_ORDER: {
+					createTextСheck();
+					break;
+				}
+				case MENU_ITEM: {
+					String menuItemName = Command.getMenuItemNameFromString(command);
+					int menuItemCount = Command.getMenuItemCountFromString(command);
+					addMenuItemsToOrder(menuItemName, menuItemCount);
+					break;
+				}
+				case PROMOCODE: {
+					String promocode = Command.getPromocodeFromString(command);
+					updatePromocode(promocode);
+					break;
+				}
+				default:
+					throw new IllegalArgumentException("Unknown command:" + command);
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
 				showCommandsList();
 			}
 		}
@@ -68,36 +83,28 @@ public class CafeApp {
 	 * Вывести в консоль набор доступных команд
 	 */
 	private void showCommandsList() {
-		showMessage("Commands");
-		showMessage("add *menu item name* count *number*");
-		showMessage("promocode *promocode name*");
-		showMessage(ORDER_COMMAND + "- show order");
-		showMessage(MENU_COMMAND + "- show menu");
-		showMessage(PAY_ORDER + "- exit from app");
-		showMessage(EXIT + " - exit from app");
+		showMessage(COMMANDS_LIST);
 	}
 
 	/**
 	 * Добавить в заказ указанную позицию и её кеоличество
 	 */
-	private void addMenuItemsToOrder(Matcher menuItemMatcher) {
-		String itemName = menuItemMatcher.group(1);
-		int count = Integer.parseInt(menuItemMatcher.group(2));
+	private void addMenuItemsToOrder(String itemName, int count) {
 		cafe.addMenuItemToOrder(orderId, itemName, count);
 	}
 
 	/**
 	 * Обновить введённый промокод
-	 * @param promocodeMatcher
+	 * 
+	 * @param promocode
 	 */
-	private void updatePromocode(Matcher promocodeMatcher) {
-		String promocode = promocodeMatcher.group(1);
+	private void updatePromocode(String promocode) {
 		if (cafe.checkPromocode(promocode)) {
 			showMessage("promocode applied");
 			this.promocode = promocode;
 		} else {
-			showMessage("uncorrect promocode");
-			this.promocode = promocode;
+			this.promocode = null;
+			throw new NoSuchElementException("Uncorrect promocode" + promocode);
 		}
 	}
 
@@ -117,26 +124,21 @@ public class CafeApp {
 	 * Показать заказ
 	 */
 	private void showOrder() {
-		try {
-			// Показываем выбранные позиции и их количество
-			cafe.getMenuItemsByOrder(orderId).forEach((menuItem, count) -> {
-				showMessage(new StringBuilder()
-					.append("Item: ").append(menuItem.getName())
-					.append(". Count: ").append(count).toString());
-			});
-			
-			// Показываем общую стоймость заказа
-			
-			// Если был введён корректный промокод, то показываем стоймость с его учётом
-			if (promocode != null) {
-				showMessage("Promocode: " + promocode);
-				showMessage("Total price: " + cafe.getOrderTotalPrice(orderId, promocode));
-			} else
-				// Иначе показываем стоймость только с учётом скидок за категории
-				showMessage("Total price: " + cafe.getOrderTotalPrice(orderId));
-		} catch (AttributeNotFoundException e) {
-			e.printStackTrace();
-		}
+		// Показываем выбранные позиции и их количество
+		cafe.getMenuItemsByOrder(orderId).forEach((menuItem, count) -> {
+			showMessage(new StringBuilder().append("Item: ").append(menuItem.getName()).append(". Count: ")
+					.append(count).toString());
+		});
+
+		// Показываем общую стоймость заказа
+
+		// Если был введён корректный промокод, то показываем стоймость с его учётом
+		if (promocode != null) {
+			showMessage("Promocode: " + promocode);
+			showMessage("Total price: " + cafe.getOrderTotalPrice(orderId, promocode));
+		} else
+			// Иначе показываем стоймость только с учётом скидок за категории
+			showMessage("Total price: " + cafe.getOrderTotalPrice(orderId));
 	}
 
 	private void showMessage(String message) {

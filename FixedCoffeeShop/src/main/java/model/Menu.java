@@ -3,15 +3,11 @@ package model;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import javax.management.AttributeNotFoundException;
 
 import model.meal.IMenuItem;
 
@@ -43,7 +39,7 @@ public class Menu {
 		StringBuilder menu = new StringBuilder();
 		groupedItems.forEach((category, menuItems) -> {
 			menu.append(category);
-
+			
 			BigDecimal categoryDiscount = category.getDiscount();
 			// Если есть скидка за категорию, то указываем эту информацию
 			if (categoryDiscount != null) {

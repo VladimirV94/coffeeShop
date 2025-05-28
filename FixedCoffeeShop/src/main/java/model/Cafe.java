@@ -2,9 +2,9 @@ package model;
 
 import java.math.BigDecimal;
 import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.Objects;
-
-import javax.management.AttributeNotFoundException;
+import java.util.Optional;
 
 import model.meal.IMenuItem;
 import service.OrderService;
@@ -35,29 +35,36 @@ public class Cafe {
 		this.promocodeDiscount = promocodeDiscount;
 	}
 
-	public BigDecimal getOrderTotalPrice(int orderId) throws AttributeNotFoundException {
-		return orderService.getOrder(orderId).getTotalPrice();
+	public BigDecimal getOrderTotalPrice(int orderId) {
+		Optional<Order> order = orderService.getOrder(orderId);
+		if (order.isPresent())
+			return order.get().getTotalPrice();
+		throw new NoSuchElementException("Order with ID " + orderId + " not found.");
 	}
 
-	public BigDecimal getOrderTotalPrice(int orderId, String promocode) throws AttributeNotFoundException {
+	public BigDecimal getOrderTotalPrice(int orderId, String promocode) {
 
 		if (promocode.equals(this.promocode))
-			return orderService.getOrder(orderId).getTotalPrice(promocodeDiscount);
+		{	
+			Optional<Order> order = orderService.getOrder(orderId);
+			if (order.isPresent())
+				return order.get().getTotalPrice(promocodeDiscount);
+			throw new NoSuchElementException("Order with ID " + orderId + " not found.");
+		}
 		else
-			throw new IllegalArgumentException("Uncorrect promocode");
+			throw new NoSuchElementException("Uncorrect promocode");
 	}
 
-	public Map<IMenuItem, Integer> getMenuItemsByOrder(int order_id) throws AttributeNotFoundException {
-		return orderService.getOrder(order_id).getItems();
+	public Map<IMenuItem, Integer> getMenuItemsByOrder(int orderId) {
+		Optional<Order> order = orderService.getOrder(orderId);
+		if (order.isPresent())
+			return order.get().getItems();;
+		throw new NoSuchElementException("Order with ID " + orderId + " not found.");
 	}
 
 	public void addMenuItemToOrder(int orderId, String itemName, int menuItemCount) {
 		menu.getItem(itemName).ifPresent(menuItem -> {
-			try {
-				orderService.addMenuItem(orderId, menuItem, menuItemCount);
-			} catch (AttributeNotFoundException e) {
-				e.printStackTrace();
-			}
+			orderService.addMenuItem(orderId, menuItem, menuItemCount);
 		});
 	}
 
